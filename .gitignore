@@ -1,0 +1,48 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+/switch-relay.py
+/.claude/
+/CLAUDE.md
+/simple-web-scraper.py
+/v2ray-updater.log
+/today_page.html
+/V2ray节点更新工具使用说明.md
+/v2ray-updater-test.log
+/v2ray-updater.py
+/v2ray-updater-test.py
+/web-scraping-test.py
+/switch-relay.py
+/today_v2ray_nodes.txt
+/mibei77_page.html
+/v2ray-backups/
