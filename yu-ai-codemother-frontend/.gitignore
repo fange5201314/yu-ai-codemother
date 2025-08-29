@@ -26,5 +26,6 @@ coverage
 *.njsproj
 *.sln
 *.sw?
-
+yu-ai-codemother-frontend/switch-relay.py
 *.tsbuildinfo
+/switch-relay.py
