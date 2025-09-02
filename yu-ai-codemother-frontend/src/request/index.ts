@@ -3,7 +3,7 @@ import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosReq
 
 // 创建axios实例
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: import.meta.env.DEV ? 'http://localhost:8123/api' : '',
+  baseURL: import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? 'http://localhost:8123/api' : '/api'),
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'

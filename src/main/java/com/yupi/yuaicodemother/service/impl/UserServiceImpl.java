@@ -117,6 +117,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements U
         return currentUser;
     }
 
+    @Override
+    public boolean userLogout(HttpServletRequest request) {
+        if (request.getSession().getAttribute(USER_LOGIN_STATE) == null) {
+            throw new BusinessException(ErrorCode.OPERATION_ERROR, "未登录");
+        }
+        // 移除登录态
+        request.getSession().removeAttribute(USER_LOGIN_STATE);
+        return true;
+    }
+
 
 
     public String getEncryptPassword(String userPassword) {
