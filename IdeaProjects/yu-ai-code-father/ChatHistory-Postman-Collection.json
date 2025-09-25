@@ -1,0 +1,63 @@
+{
+  "info": {
+    "name": "ChatHistory API 测试集合",
+    "description": "测试会话历史相关的API接口"
+  },
+  "item": [
+    {
+      "name": "保存对话历史",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"测试消息\",\n  \"messageType\": \"user\",\n  \"appId\": 1,\n  \"userId\": 1\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8123/api/chatHistory/save",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8123",
+          "path": ["api", "chatHistory", "save"]
+        }
+      }
+    },
+    {
+      "name": "查询对话历史列表",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8123/api/chatHistory/list",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8123",
+          "path": ["api", "chatHistory", "list"]
+        }
+      }
+    },
+    {
+      "name": "按应用ID查询对话历史",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8123/api/chatHistory/app/1?pageSize=10",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8123",
+          "path": ["api", "chatHistory", "app", "1"],
+          "query": [
+            {
+              "key": "pageSize",
+              "value": "10"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

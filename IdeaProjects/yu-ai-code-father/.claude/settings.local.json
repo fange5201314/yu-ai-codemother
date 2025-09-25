@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:*)",
+      "Read(**)",
+      "Write(**)",
+      "Edit(**)",
+      "MultiEdit(**)",
+      "Glob(**)",
+      "Grep(**)",
+      "NotebookEdit(**)",
+      "Bash",
+      "Task",
+      "TodoWrite",
+      "BashOutput",
+      "KillBash",
+      "ExitPlanMode",
+      "WebSearch",
+      "WebFetch(domain:instcopilot-api.com)"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "disableAllHooks": false
+}

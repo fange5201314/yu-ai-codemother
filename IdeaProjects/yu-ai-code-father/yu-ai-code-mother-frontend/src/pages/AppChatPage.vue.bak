@@ -1,0 +1,111 @@
+/**
+ * 处理发送消息
+ */
+const handleSend = async () => {
+  if (!userInput.value.trim() || sending.value) {
+    return
+  }
+
+  // 添加用户消息
+  const userMessage = {
+    id: Date.now().toString(),
+    role: 'user',
+    content: userInput.value,
+  }
+  messages.value.push(userMessage)
+
+  // 清空输入框
+  const userContent = userInput.value
+  userInput.value = ''
+
+  // 添加AI回复占位符
+  const aiMessage = {
+    id: (Date.now() + 1).toString(),
+    role: 'ai',
+    content: '',
+    loading: true,
+  }
+  messages.value.push(aiMessage)
+
+  // 滚动到底部
+  scrollToBottom()
+
+  sending.value = true
+
+  try {
+    // 使用fetch API手动处理SSE，以确保携带认证信息
+    // EventSource默认不携带cookies，需要使用fetch API来处理SSE流
+    const response = await fetch(
+      `http://localhost:8123/api/app/chat/gen/code?appId=${appId.value}&message=${encodeURIComponent(userContent)}`,
+      {
+        method: 'GET',
+        credentials: 'include', // 确保携带cookies
+        headers: {
+          'Accept': 'text/event-stream',
+        },
+      }
+    )
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+
+    if (!response.body) {
+      throw new Error('Response body is null')
+    }
+
+    const reader = response.body.getReader()
+    const decoder = new TextDecoder('utf-8')
+    let done = false
+    let fullContent = ''
+
+    while (!done) {
+      const { value, done: readerDone } = await reader.read()
+      done = readerDone
+
+      if (value) {
+        const chunk = decoder.decode(value, { stream: true })
+        // 解析SSE数据
+        const lines = chunk.split('\n')
+        for (const line of lines) {
+          if (line.startsWith('data:')) {
+            const data = line.substring(5).trim()
+            if (data === '[DONE]') {
+              done = true
+              break
+            }
+            try {
+              const parsedData = JSON.parse(data)
+              if (parsedData.type === 'content') {
+                fullContent += parsedData.value
+                // 更新AI消息对象
+                const aiMsg = messages.value[messages.value.length - 1]
+                if (aiMsg.role === 'ai') {
+                  aiMsg.content = fullContent
+                  // 滚动到底部
+                  scrollToBottom()
+                }
+              } else if (parsedData.type === 'end') {
+                // 生成完成，显示预览
+                appGenerated.value = true
+                previewUrl.value = `http://localhost:8123/api/static/${parsedData.codeGenType}_${appId.value}/`
+                done = true
+              }
+            } catch (e) {
+              console.error('解析SSE数据失败:', e)
+            }
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.error('对话失败:', error)
+    message.error('对话失败')
+    // 移除AI回复占位符
+    if (messages.value.length > 0 && messages.value[messages.value.length - 1].role === 'ai') {
+      messages.value.pop()
+    }
+  } finally {
+    sending.value = false
+  }
+}

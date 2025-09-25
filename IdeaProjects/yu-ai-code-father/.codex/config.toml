@@ -1,0 +1,12 @@
+model = "gpt-5-codex"
+
+ model_provider = "duck"
+model_reasoning_effort = "high"
+disable_response_storage = true
+network_access = "enabled"
+
+[model_providers.duck]
+name = "duck"
+base_url = "https://jp.duckcoding.com/v1"
+wire_api = "responses"
+env_key = "sk-lqEZaj2olGpExKATKcWfR8joNJOwQMA5odr1aqfAKaVyrsI5"
